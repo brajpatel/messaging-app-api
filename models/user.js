@@ -7,7 +7,8 @@ const UserSchema = new Schema({
     status_message: { type: String, default: '' },
     profile_picture: { type: Buffer, contentType: String },
     password: { type: String, required: true },
-    date_joined: { type: Date, required: true }
+    date_joined: { type: Date, required: true },
+    friends: [{ type: Schema.types.ObjectId, ref: 'User', required: true }]
 })
 
 module.exports = mongoose.model('user', UserSchema);
