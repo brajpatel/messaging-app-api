@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const authRouter = require('./routes/auth');
-const profileRouter = require('./routes/profile');
+const userProfileRouter = require('./routes/userProfile');
 const friendRouter = require('./routes/friend');
 const chatRouter = require('./routes/chat');
 
@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', authRouter);
-app.use('/profile', profileRouter);
+app.use('/profile', userProfileRouter);
 app.use('/friend', friendRouter);
 app.use('/chat', chatRouter);
 
