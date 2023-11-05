@@ -9,7 +9,7 @@ router.post('/update', function(req, res, next) {
     res.json({ message: 'update user profile' });
 });
 
-router.post('/deelte', function(req, res, next) {
+router.post('/delete', function(req, res, next) {
     res.json({ message: 'delete user profile' });
 })
 
