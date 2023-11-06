@@ -1,5 +1,7 @@
 const { body, validationResult } = require('express-validator');
+const passwordValidator = require('password-validator');
 const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 exports.create_account = [
@@ -11,7 +13,27 @@ exports.create_account = [
         .trim()
         .escape(),
 
+    function(req, res, next) {
+        if(req.body.password !== req.body.confirm_password) {
+            return res.status(400).json({ message: "Passwords do not match"});
+        }
+
+        const schema = new passwordValidator();
+        schema
+            .is().min(6)
+            .has().lowercase()
+            .has().uppercase()
+            .has().not().spaces()
+
+        if(!schema.validate(req.body.password)) {
+            return res.status(400).json({ message: "Password must be at least 6 characters in length, with at least one uppercase character"});
+        }
+
+    },
+
     asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+
         const user = new User({
             username: req.body.username,
             email: req.body.email,
@@ -21,6 +43,19 @@ exports.create_account = [
             date_joined: new Date().toLocaleDateString(),
             friends: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }]
         })
+
+        if(!errors.isEmpty()) {
+            return res.status(400).json({ message: "Please fill in all the fields correctly" });
+        }
+        else {
+            bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+                if(err) return next(err);
+                user.password = hashedPassword;
+                await user.save();
+
+                next();
+            })
+        }
     })
 ]
 
