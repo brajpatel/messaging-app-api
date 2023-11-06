@@ -1,7 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const passwordValidator = require('password-validator');
 const asyncHandler = require('express-async-handler');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 exports.create_account = [
@@ -37,11 +37,11 @@ exports.create_account = [
         const user = new User({
             username: req.body.username,
             email: req.body.email,
-            status_message: req.body.status_message,
+            status_message: '',
             profile_picture: '',
-            password: { type: String, required: true },
+            password: req.body.password,
             date_joined: new Date().toLocaleDateString(),
-            friends: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }]
+            friends: []
         })
 
         if(!errors.isEmpty()) {
@@ -51,9 +51,9 @@ exports.create_account = [
             bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
                 if(err) return next(err);
                 user.password = hashedPassword;
+                
                 await user.save();
-
-                next();
+                return res.status(200);
             })
         }
     })
