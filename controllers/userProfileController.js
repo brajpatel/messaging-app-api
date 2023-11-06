@@ -1,7 +1,16 @@
+const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/user');
 
 exports.create_account = [
+    body("username", "username must contain at least 3 characters")
+        .trim()
+        .isLength({ min: 3 })
+        .escape(),
+    body("email", "email must be valid")
+        .trim()
+        .escape(),
+
     asyncHandler(async (req, res, next) => {
         const user = new User({
             username: req.body.username,
