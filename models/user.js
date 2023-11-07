@@ -7,7 +7,7 @@ const UserSchema = new Schema({
     status_message: { type: String, default: '' },
     profile_picture: { data: Buffer, contentType: String },
     password: { type: String, minLength: 6, required: true },
-    date_joined: { type: Date, required: true },
+    date_joined: { type: String, required: true },
     friends: [{ type: Schema.Types.ObjectId, ref: 'User', required: true }]
 })
 

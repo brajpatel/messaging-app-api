@@ -26,7 +26,6 @@ exports.create_account = [
         .has().not().spaces()
 
         if(!schema.validate(req.body.password)) {
-            console.log(schema.validate(req.body.password))
             return res.status(400).json({ message: "Password must be at least 6 characters in length, with at least one uppercase character"});
         }
         
@@ -52,21 +51,24 @@ exports.create_account = [
                 errors: errors.array()
             });
         }
-        else {
+        else {            
+            const emailExists = await User.findOne({ email: req.body.email }).collation({ locale: "en", strength: 2 }).exec();
             const usernameTaken = await User.findOne({ username: req.body.username }).collation({ locale: "en", strength: 2 }).exec();
 
-            if(usernameTaken) {
+            if(emailExists) {
+                return res.status(400).json({ message: "An account with that email already exists" });
+            }
+            else if(usernameTaken) {
                 return res.status(400).json({ message: "That username is already taken" });
             }
             else {
                 bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
-                    if(err) return next(err);
-    
+                    if(err) return next(err);    
                     user.password = hashedPassword;
+                        
+                    await user.save();
+                    return res.status(200).json({ message: 'Account successfully created' });
                 })
-    
-                await user.save();
-                return res.status(200).json({ message: 'Account successfully created' });
             }
         }
     })
