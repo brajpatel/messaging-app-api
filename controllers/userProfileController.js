@@ -28,7 +28,8 @@ exports.create_account = [
         if(!schema.validate(req.body.password)) {
             return res.status(400).json({ message: "Password must be at least 6 characters in length, with at least one uppercase character"});
         }
-
+        
+        next();
     },
 
     asyncHandler(async (req, res, next) => {
@@ -45,15 +46,19 @@ exports.create_account = [
         })
 
         if(!errors.isEmpty()) {
-            return res.status(400).json({ message: "Please fill in all the fields correctly" });
+            return res.status(400).json({
+                message: "Please fill in all the fields correctly",
+                errors: errors.array()
+            });
         }
         else {
             bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
                 if(err) return next(err);
+                
                 user.password = hashedPassword;
                 
                 await user.save();
-                return res.status(200);
+                return res.status(200).json({ message: 'Account successfully created' });
             })
         }
     })
