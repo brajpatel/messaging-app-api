@@ -1,8 +1,19 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+
+const mongoose = require('mongoose');
+mongoose.set("strictQuery", false);
+const mongoDB = process.env.MONGODB_CONNECTION_STRING;
+
+main().catch((err) => console.log(err));
+
+async function main() {
+  await mongoose.connect(mongoDB);
+}
 
 const authRouter = require('./routes/auth');
 const userProfileRouter = require('./routes/userProfile');

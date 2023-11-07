@@ -45,6 +45,8 @@ exports.create_account = [
             friends: []
         })
 
+        // CHECK IF ACCOUNT WITH DESIRED USERNAME ALREADY EXISTS
+
         if(!errors.isEmpty()) {
             return res.status(400).json({
                 message: "Please fill in all the fields correctly",
@@ -54,7 +56,7 @@ exports.create_account = [
         else {
             bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
                 if(err) return next(err);
-                
+
                 user.password = hashedPassword;
                 
                 await user.save();
