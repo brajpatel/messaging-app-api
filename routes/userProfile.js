@@ -8,8 +8,6 @@ router.post('/update', function(req, res, next) {
     res.json({ message: 'update user profile' });
 });
 
-router.post('/delete', function(req, res, next) {
-    res.json({ message: 'delete user profile' });
-})
+router.post('/delete', user_profile_controller.delete_account);
 
 module.exports = router;
