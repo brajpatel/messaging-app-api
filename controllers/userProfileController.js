@@ -79,6 +79,8 @@ exports.update_account = asyncHandler(async (req, res, next) => {
 })
 
 exports.delete_account = asyncHandler(async (req, res, next) => {
+    // DELETE ALL CHATS INVOLVING THE USER
+
     await User.findByIdAndRemove(req.body.profileid);
 
     return res.status(200).json({ message: 'Successfully deleted account - sign out and redirect to login page' });

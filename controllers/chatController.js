@@ -2,6 +2,10 @@ const asyncHandler = require('express-async-handler');
 const Chat = require('../models/chat');
 const User = require('../models/user');
 
+// Sipp77 - 654bbc119a40fbaf15313dcc
+// Sip77 - 654bc03a2a16586fe8827e19
+// NotSipp77 - 654cba4205bf93a58adc3174
+
 exports.create_chat = asyncHandler(async (req, res, next) => {
     const [userOne, userTwo] = await Promise.all([
         User.findById(req.body.users[0]).exec(),
@@ -19,10 +23,8 @@ exports.create_chat = asyncHandler(async (req, res, next) => {
     else {
         const chatExists = await Chat.find({ users: [...req.body.users] }).exec();
 
-        res.json(chatExists)
-
-        if(chatExists) {
-            return res.json({ message: 'A chat between these two users already exists' });
+        if(chatExists.length) {
+            return res.json({ message: 'A chat between these two users already exists', chatExists: chatExists });
         }
         else {
             await chat.save();
