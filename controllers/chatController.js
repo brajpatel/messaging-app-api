@@ -1,9 +1,9 @@
 const asyncHandler = require('express-async-handler');
 const Chat = require('../models/chat');
 const User = require('../models/user');
+const Message = require('../models/message');
 
 // Sipp77 - 654bbc119a40fbaf15313dcc
-// Sip77 - 654bc03a2a16586fe8827e19
 // NotSipp77 - 654cba4205bf93a58adc3174
 
 exports.create_chat = asyncHandler(async (req, res, next) => {
@@ -39,5 +39,29 @@ exports.chat_get = asyncHandler(async (req, res, next) => {
 })
 
 exports.send_message = asyncHandler(async (req, res, next) => {
-    res.json({ message: 'send message' });
+    if(req.body.message.trim() === '') {
+        return res.json({ message: 'Message can not be left blank' });
+    }
+
+    const chat = await Chat.findById(req.params.id).exec();
+
+    if(chat) {
+        const newMessage = {
+            message: req.body.message,
+            date_sent: new Date().toLocaleDateString(),
+            time_sent: new Date().toLocaleTimeString()
+        }
+
+        const updatedChat = new Chat({
+            users: chat.users,
+            messages: [...chat.messages, newMessage],
+            _id: req.params.id
+        })
+
+        await Chat.findByIdAndUpdate(req.params.id, updatedChat, {});
+        return res.status(200).json({ message: 'Message sent' })
+    }
+    else {
+        return res.json({ message: 'Message not sent' });
+    }
 })
