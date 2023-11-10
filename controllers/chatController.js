@@ -1,7 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Chat = require('../models/chat');
 const User = require('../models/user');
-const Message = require('../models/message');
 
 // Sipp77 - 654bbc119a40fbaf15313dcc
 // NotSipp77 - 654cba4205bf93a58adc3174
