@@ -34,7 +34,7 @@ exports.create_chat = asyncHandler(async (req, res, next) => {
 })
 
 exports.chat_get = asyncHandler(async (req, res, next) => {
-    const chat = await Chat.findById(req.params.id).exec();
+    const chat = await Chat.find({ users: [...req.body.users] }).exec();
     
     if(!chat) {
         return res.status(404).json({ message: 'The chat you are looking for could not be found' })
