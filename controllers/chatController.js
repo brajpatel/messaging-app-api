@@ -34,7 +34,13 @@ exports.create_chat = asyncHandler(async (req, res, next) => {
 })
 
 exports.chat_get = asyncHandler(async (req, res, next) => {
-    res.json({ message: 'get chat' });
+    const chat = await Chat.findById(req.params.id).exec();
+    
+    if(!chat) {
+        return res.status(404).json({ message: 'The chat you are looking for could not be found' })
+    }
+
+    return res.status(200).json(chat);
 })
 
 exports.send_message = asyncHandler(async (req, res, next) => {
