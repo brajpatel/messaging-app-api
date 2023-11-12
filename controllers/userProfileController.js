@@ -80,6 +80,7 @@ exports.update_account = asyncHandler(async (req, res, next) => {
 
 exports.delete_account = asyncHandler(async (req, res, next) => {
     // DELETE ALL CHATS INVOLVING THE USER
+    // FIND ALL USERS WITH THIS FRIEND AND REMOVE
 
     await User.deleteOne({ _id: req.body.profileid });
 
