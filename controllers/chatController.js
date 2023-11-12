@@ -53,8 +53,7 @@ exports.send_message = asyncHandler(async (req, res, next) => {
     if(chat) {
         const newMessage = {
             message: req.body.message,
-            date_sent: new Date().toLocaleDateString(),
-            time_sent: new Date().toLocaleTimeString(),
+            date_sent: new Date().toISOString(),
             user_id: req.body.userId
         }
 
