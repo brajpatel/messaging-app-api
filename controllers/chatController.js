@@ -54,7 +54,7 @@ exports.send_message = asyncHandler(async (req, res, next) => {
         const newMessage = {
             message: req.body.message,
             date_sent: new Date().toISOString(),
-            user_id: req.body.userId
+            user_id: req.body.userid
         }
 
         const updatedChat = new Chat({
