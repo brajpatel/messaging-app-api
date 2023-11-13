@@ -8,6 +8,7 @@ exports.create_account = [
     body("username", "username must contain at least 3 characters")
         .trim()
         .isLength({ min: 3 })
+        .isLength({ max: 18 })
         .escape(),
     body("email", "email must be valid")
         .trim()
@@ -74,9 +75,29 @@ exports.create_account = [
     })
 ]
 
-exports.update_account = asyncHandler(async (req, res, next) => {
-    return res.json({ message: 'Update account' })
-})
+exports.update_account = [
+    body("username", "username must contain at least 3 characters")
+        .trim()
+        .isLength({ min: 3 })
+        .isLength({ max: 18 })
+        .escape(),
+    body("status_message", "status message can not be longer than 30 characters")
+        .trim()
+        .isLength({ max: 50 })
+        .escape(),
+    
+    asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+
+        const user = new User({
+            username: req.body.username,
+            status_message: req.body.status_message
+            // profile picture
+        })
+
+
+    }) 
+]
 
 exports.delete_account = asyncHandler(async (req, res, next) => {
     // DELETE ALL CHATS INVOLVING THE USER
