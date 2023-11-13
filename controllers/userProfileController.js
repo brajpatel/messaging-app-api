@@ -75,14 +75,14 @@ exports.create_account = [
 ]
 
 exports.update_account = asyncHandler(async (req, res, next) => {
-
+    return res.json({ message: 'Update account' })
 })
 
 exports.delete_account = asyncHandler(async (req, res, next) => {
     // DELETE ALL CHATS INVOLVING THE USER
     // FIND ALL USERS WITH THIS FRIEND AND REMOVE
 
-    await User.deleteOne({ _id: req.body.profileid });
+    await User.deleteOne({ _id: req.body.userid });
 
     return res.status(200).json({ message: 'Successfully deleted account - sign out and redirect to login page' });
 })
