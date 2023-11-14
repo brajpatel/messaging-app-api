@@ -13,6 +13,12 @@ exports.create_account = [
     body("email", "email must be valid")
         .trim()
         .escape(),
+    body("password", "password must be at least 6 characters in length")
+        .isLength({ min: 6 })
+        .escape(),
+    body("confirm_password", "password must be at least 6 characters in length")
+        .isLength({ min: 6 })
+        .escape(),
 
     function(req, res, next) {
         if(req.body.password !== req.body.confirm_password) {
