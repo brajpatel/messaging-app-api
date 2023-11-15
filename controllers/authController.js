@@ -1,4 +1,3 @@
-const asyncHandler = require('async-handler');
 const passport = require('passport');
 
 exports.login = [
