@@ -2,8 +2,8 @@ require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const passport = require('passport');
-const session = require('passport-session');
 const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -37,7 +37,7 @@ passport.use(
       }
 
       res.json({ user: user });
-      
+
       return done(null, user);
     }
     catch(err) {
@@ -71,6 +71,9 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
