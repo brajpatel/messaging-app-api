@@ -36,6 +36,8 @@ passport.use(
         return done(null, false, { message: 'Incorrect password' });
       }
 
+      res.json({ user: user });
+      
       return done(null, user);
     }
     catch(err) {
