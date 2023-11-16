@@ -4,10 +4,8 @@ const user_profile_controller = require('../controllers/userProfileController');
 
 router.post('/create', user_profile_controller.create_account);
 
-router.post('/update', function(req, res, next) {
-    res.json({ message: 'update user profile' });
-});
+router.post('/:id/update', user_profile_controller.update_account);
 
-router.delete('/delete', user_profile_controller.delete_account);
+router.delete('/:id/delete', user_profile_controller.delete_account);
 
 module.exports = router;

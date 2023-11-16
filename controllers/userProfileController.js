@@ -95,13 +95,29 @@ exports.update_account = [
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
 
-        const user = new User({
-            username: req.body.username,
-            status_message: req.body.status_message
-            // profile picture
-        })
+if(!(errors.isEmpty())) {
+            return res.status(400).json({
+                message: "Please fill in all the fields correctly",
+                errors: errors.array()
+            });
+        }
+        else {
+            const user = await User.findById(req.params.id);
+            
+            if(!user) {
+                return res.json({ message: 'User could not be found' });
+            }
 
+            const updatedUser = new User({
+                username: req.body.username,
+                status_message: req.body.status_message,
+                profile_picture: req.body.profile_picture,
+                _id: user._id
+            })
 
+            await User.findByIdAndUpdate(user._id, updatedUser, {});
+            return res.json({ message: 'Profile updated' })
+        }
     }) 
 ]
 
