@@ -95,7 +95,12 @@ exports.update_account = [
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
 
-if(!(errors.isEmpty())) {
+        const usernameTaken = await User.findOne({ username: req.body.username });
+
+        if(usernameTaken) {
+            return res.json({ message: 'Username is already taken' });
+        }
+        else if(!(errors.isEmpty())) {
             return res.status(400).json({
                 message: "Please fill in all the fields correctly",
                 errors: errors.array()
