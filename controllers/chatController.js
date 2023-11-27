@@ -5,6 +5,16 @@ const User = require('../models/user');
 // Sipp77 - 654bbc119a40fbaf15313dcc
 // NotSipp77 - 654cba4205bf93a58adc3174
 
+exports.get_chat = asyncHandler(async (req, res, next) => {
+    const chat = await Chat.find({ users: { $all: [req.body.users[0], req.body.users[1]] } }).exec();
+    
+    if(!chat) {
+        return res.status(404).json({ message: 'The chat you are looking for could not be found' })
+    }
+
+    return res.status(200).json(chat);
+})
+
 exports.create_chat = asyncHandler(async (req, res, next) => {
     const [userOne, userTwo] = await Promise.all([
         User.findById(req.body.users[0]).exec(),
@@ -31,16 +41,6 @@ exports.create_chat = asyncHandler(async (req, res, next) => {
             return res.status(200).json({ message: 'New chat created' });
         }
     }
-})
-
-exports.chat_get = asyncHandler(async (req, res, next) => {
-    const chat = await Chat.find({ users: { $all: [req.body.users[0], req.body.users[1]] } }).exec();
-    
-    if(!chat) {
-        return res.status(404).json({ message: 'The chat you are looking for could not be found' })
-    }
-
-    return res.status(200).json(chat);
 })
 
 exports.send_message = asyncHandler(async (req, res, next) => {

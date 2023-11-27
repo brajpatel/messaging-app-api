@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const chat_controller = require('../controllers/chatController');
 
-router.get('/', chat_controller.chat_get);
+router.get('/', chat_controller.get_chat);
 
 router.post('/create', chat_controller.create_chat);
 
