@@ -1,3 +1,4 @@
+const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const Post = require('../models/post');
 
@@ -11,4 +12,29 @@ exports.get_posts = asyncHandler(async (req, res, next) => {
     return res.status(200).json(allPosts);
 })
 
-exports.create_post = []
+exports.create_post = [
+    body("message", "Message can not be longer than 70 characters long")
+        .isLength({ max: 70 })
+        .escape(),
+
+    asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+
+        const post = new Post({
+            message: req.body.message,
+            date_created: new Date().toIsoString(),
+            user: req.body
+        })
+
+        if(!errors.isEmpty()) {
+            return res.status(400).json({
+                message: "Please fill in all the fields correctly",
+                errors: errors.array()
+            })
+        }
+        else {
+            await post.save();
+            return res.status(200).json({ message: '' })
+        }
+    })
+]
