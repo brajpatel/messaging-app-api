@@ -34,7 +34,7 @@ exports.create_post = [
         }
         else {
             await post.save();
-            return res.status(200).json({ message: '' })
+            return res.status(200).json({ message: 'Post successfully created' });
         }
     })
 ]
