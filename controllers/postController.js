@@ -14,7 +14,7 @@ exports.get_posts = asyncHandler(async (req, res, next) => {
 
 exports.create_post = [
     body("message", "Message can not be longer than 70 characters long")
-        .isLength({ max: 70 })
+        .isLength({ max: 120 })
         .escape(),
 
     asyncHandler(async (req, res, next) => {
