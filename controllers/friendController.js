@@ -1,6 +1,10 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/user');
 
+exports.get_users = asyncHandler(async (req, res, next) => {
+    
+})
+
 exports.add_friend = asyncHandler(async (req, res, next) => {
     const friend = await User.findById(req.body.friendid).exec();
 
