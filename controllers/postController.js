@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/post');
 
 exports.get_posts = asyncHandler(async (req, res, next) => {
-    const allPosts = await Post.find().populate('user').exec();
+    const allPosts = await Post.find().exec();
     
     if(!allPosts) {
         return res.status(404).json({ message: 'Posts could not be found' })
@@ -22,8 +22,8 @@ exports.create_post = [
 
         const post = new Post({
             message: req.body.message,
-            date_created: new Date().toIsoString(),
-            user: req.body
+            date_created: new Date().toISOString(),
+            user: req.body.userId
         })
 
         if(!errors.isEmpty()) {
