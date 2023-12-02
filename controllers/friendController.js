@@ -2,7 +2,13 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/user');
 
 exports.get_users = asyncHandler(async (req, res, next) => {
-    
+    const allUsers = await User.find().exec();
+
+    if(!allUsers) {
+        return res.status(400).json({ message: 'Users could not be found' })
+    }
+
+    return res.status(200).json(allUsers);
 })
 
 exports.add_friend = asyncHandler(async (req, res, next) => {
