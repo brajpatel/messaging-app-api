@@ -4,6 +4,7 @@ const User = require('../models/user');
 
 // Sipp77 - 654bbc119a40fbaf15313dcc
 // NotSipp77 - 654cba4205bf93a58adc3174
+// NotBruh - 654e59bee3e5f5ee81ae3171
 
 exports.get_chat = asyncHandler(async (req, res, next) => {
     const chat = await Chat.find({ users: { $all: [req.body.users[0], req.body.users[1]] } }).exec();

@@ -121,7 +121,7 @@ exports.update_account = [
             })
 
             await User.findByIdAndUpdate(user._id, updatedUser, {});
-            return res.json({ message: 'Profile updated' })
+            return res.json({ message: 'Profile updated' });
         }
     }) 
 ]

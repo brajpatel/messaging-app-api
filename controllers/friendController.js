@@ -18,8 +18,8 @@ exports.add_friend = asyncHandler(async (req, res, next) => {
         const user = await User.findById(req.body.userid).exec();
 
         if(user) {
-            if(user.friends.includes(friend._id) || friend.friends.includes(user._id)) {
-                return res.json({ message: 'User is already friend' });
+            if(user.friends.includes(friend._id) && friend.friends.includes(user._id)) {
+                return res.json({ message: 'These users are already friends' });
             }
 
             const updatedUser = new User({
