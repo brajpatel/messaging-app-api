@@ -127,6 +127,7 @@ exports.update_account = [
 ]
 
 exports.delete_account = asyncHandler(async (req, res, next) => {
+    // DELETE ALL POSTS CREATED BY THE USER
     // DELETE ALL CHATS INVOLVING THE USER
     // FIND ALL USERS WITH THIS FRIEND AND REMOVE
 
