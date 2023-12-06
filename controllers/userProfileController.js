@@ -163,6 +163,7 @@ exports.delete_account = asyncHandler(async (req, res, next) => {
         console.log(err);
     }
 
+    // DELETE THE USER DOCUMENT
     await User.deleteOne({ _id: req.params.id });
 
     return res.status(200).json({ message: 'Successfully deleted account - sign out and redirect to login page' });
