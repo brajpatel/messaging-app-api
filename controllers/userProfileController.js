@@ -3,6 +3,8 @@ const passwordValidator = require('password-validator');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const Post = require('../models/post');
+const Chat = require('../models/chat');
 
 exports.create_account = [
     body("username", "username must contain at least 3 characters")
@@ -128,10 +130,25 @@ exports.update_account = [
 
 exports.delete_account = asyncHandler(async (req, res, next) => {
     // DELETE ALL POSTS CREATED BY THE USER
+    try {
+        await Post.deleteMany({ "user": req.params.id })
+    }
+    catch(err) {
+        console.log(err);
+    }
+    
+
     // DELETE ALL CHATS INVOLVING THE USER
+    try {
+        await Chat.deleteMany({ "user": req.params.id })
+    }
+    catch(err) {
+        console.log(err);
+    }
+    
     // FIND ALL USERS WITH THIS FRIEND AND REMOVE
 
-    await User.deleteOne({ _id: req.body.userid });
+    // await User.deleteOne({ _id: req.body.userid });
 
     return res.status(200).json({ message: 'Successfully deleted account - sign out and redirect to login page' });
 })
