@@ -129,6 +129,12 @@ exports.update_account = [
 ]
 
 exports.delete_account = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+
+    if(!user) {
+        return res.status(400).json({ message: 'User could not be found' });
+    }
+
     // DELETE ALL POSTS CREATED BY THE USER
     try {
         await Post.deleteMany({ "user": req.params.id })
@@ -157,7 +163,7 @@ exports.delete_account = asyncHandler(async (req, res, next) => {
         console.log(err);
     }
 
-    // await User.deleteOne({ _id: req.body.userid });
+    await User.deleteOne({ _id: req.params.id });
 
     return res.status(200).json({ message: 'Successfully deleted account - sign out and redirect to login page' });
 })
