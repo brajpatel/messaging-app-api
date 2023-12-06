@@ -147,6 +147,15 @@ exports.delete_account = asyncHandler(async (req, res, next) => {
     }
     
     // FIND ALL USERS WITH THIS FRIEND AND REMOVE
+    try {
+        await User.updateMany(
+            { "friends": req.params.id },
+            { $pull: { "friends": req.params.id } }
+        )
+    }
+    catch(err) {
+        console.log(err);
+    }
 
     // await User.deleteOne({ _id: req.body.userid });
 
