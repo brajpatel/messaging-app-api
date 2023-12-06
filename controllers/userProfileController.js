@@ -140,7 +140,7 @@ exports.delete_account = asyncHandler(async (req, res, next) => {
 
     // DELETE ALL CHATS INVOLVING THE USER
     try {
-        await Chat.deleteMany({ "user": req.params.id })
+        await Chat.deleteMany({ "users": req.params.id })
     }
     catch(err) {
         console.log(err);
