@@ -7,6 +7,7 @@ const session = require('express-session');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 
 // connect to database
 const mongoose = require('mongoose');
@@ -67,6 +68,9 @@ const chatRouter = require('./routes/chat');
 const postRouter = require('./routes/post');
 
 const app = express();
+
+// use cors
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
