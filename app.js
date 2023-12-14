@@ -7,6 +7,7 @@ const session = require('express-session');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // connect to database
@@ -68,6 +69,9 @@ const chatRouter = require('./routes/chat');
 const postRouter = require('./routes/post');
 
 const app = express();
+
+// use body parser
+app.use(bodyParser.json());
 
 // use cors
 app.use(cors());
