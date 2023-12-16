@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const Post = require('../models/post');
 
 exports.get_posts = asyncHandler(async (req, res, next) => {
-    const allPosts = await Post.find({}).exec();
+    const allPosts = await Post.find({}).populate('user').exec();
     
     if(!allPosts) {
         return res.status(404).json({ message: 'Posts could not be found' })
