@@ -24,7 +24,7 @@ exports.create_account = [
 
     function(req, res, next) {
         if(req.body.password !== req.body.confirm_password) {
-            return res.status(400).json({ message: "Passwords do not match"});
+            return res.status(400).json({ message: "Passwords do not match" });
         }
 
         const schema = new passwordValidator();
@@ -32,10 +32,9 @@ exports.create_account = [
         .is().min(6)
         .has().lowercase()
         .has().uppercase()
-        .has().not().spaces()
 
-        if(!schema.validate(req.body.password)) {
-            return res.status(400).json({ message: "Password must be at least 6 characters in length, with at least one uppercase character"});
+        if(!(schema.validate(req.body.password))) {
+            return res.status(400).json({ message: "Password must be at least 6 characters in length, with at least one uppercase character" });
         }
         
         next();
